@@ -3,6 +3,15 @@
     "type": "library",
     "description": "XLS importer to XLSX or CSV with low memory usage",
     "license": "MIT",
+    "keywords": [
+        "PHP",
+        "OpenXML",
+        "Excel",
+        "xlsx",
+        "xls",
+        "csv",
+        "spreadsheet"
+    ],
     "require": {
         "php": "^8.0",
         "openspout/openspout": "^4.0",
