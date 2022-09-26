@@ -22,7 +22,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: curl, mbstring, zip, pcntl, bcmath, intl
+          extensions: curl, mbstring, zip, pcntl, intl
           coverage: none
 
       - name: Install dependencies

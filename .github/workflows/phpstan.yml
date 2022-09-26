@@ -15,4 +15,5 @@ jobs:
         with:
           configuration: phpstan.neon.dist
           php_version: 8.1
+          php_extensions: curl, mbstring, zip, pcntl, intl
           memory_limit: 256M
