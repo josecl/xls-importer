@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Josecl\PhpLibraryBoilerplate\Tests;
+namespace Josecl\XlsImporter\Tests;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {

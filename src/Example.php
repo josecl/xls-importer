@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Josecl\PhpLibraryBoilerplate;
+namespace Josecl\XlsImporter;
 
 class Example
 {

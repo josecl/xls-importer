@@ -1,7 +1,7 @@
 {
-    "name": "josecl/php-library-boilerplate",
+    "name": "josecl/xls-importer",
     "type": "library",
-    "description": "PHP library boilerplate",
+    "description": "XLS importer to XLSX or CSV with low memory usage",
     "license": "MIT",
     "require": {
         "php": "^8.0"
@@ -27,12 +27,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Josecl\\PhpLibraryBoilerplate\\": "src"
+            "Josecl\\XlsImporter\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Josecl\\PhpLibraryBoilerplate\\Tests\\": "tests"
+            "Josecl\\XlsImporter\\Tests\\": "tests"
         }
     },
     "minimum-stability": "dev",

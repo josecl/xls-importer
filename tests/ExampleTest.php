@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Josecl\PhpLibraryBoilerplate\Example;
+use Josecl\XlsImporter\Example;
 
 test('example', function () {
     expect(true)->toBeTrue();

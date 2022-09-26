@@ -13,7 +13,7 @@ declare(strict_types=1);
 |
 */
 
-use Josecl\PhpLibraryBoilerplate\Tests\TestCase;
+use Josecl\XlsImporter\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);
 
