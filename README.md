@@ -3,7 +3,33 @@
 [![phpstan](https://github.com/josecl/xls-importer/actions/workflows/phpstan.yml/badge.svg)](https://github.com/josecl/xls-importer/actions/workflows/phpstan.yml)
 [![tests](https://github.com/josecl/xls-importer/actions/workflows/tests.yml/badge.svg)](https://github.com/josecl/xls-importer/actions/workflows/tests.yml)
 
-XLS importer to XLSX or CSV with low memory usage.
+
+
+## Usage
+
+To convert to a CSV file:
+
+```php
+$importer = new XlsImporter('/path/to/input.xls');
+$importer->import('Sheet 1', '/path/to/output.csv');
+```
+
+To convert to a XLSX file:
+
+```php
+// ...
+$importer->import('Sheet 1', '/path/to/output.xlsx');
+```
+
+You can also use a custom implementation of the `Josecl\XlsImporter\Writer` interface:
+
+
+```php
+// ...
+$importer->import('Sheet 1',  new MyOwnXlsxWriter());
+```
+Look at `Josecl\XlsImporter\OpenSpoutXlsxWriter` for inspiration.
+
 
 
 ## Development
