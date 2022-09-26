@@ -4,7 +4,9 @@
     "description": "XLS importer to XLSX or CSV with low memory usage",
     "license": "MIT",
     "require": {
-        "php": "^8.0"
+        "php": "^8.0",
+        "openspout/openspout": "^4.0",
+        "phpoffice/phpspreadsheet": "^1.19.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.9",
