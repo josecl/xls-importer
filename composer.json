@@ -14,6 +14,7 @@
     ],
     "require": {
         "php": "^8.0",
+        "ext-zip": "*",
         "openspout/openspout": "^4.0",
         "phpoffice/phpspreadsheet": "^1.19.0"
     },
