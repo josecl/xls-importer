@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+        bootstrap="vendor/autoload.php"
+        executionOrder="random"
+        beStrictAboutOutputDuringTests="true"
+>
+  <testsuites>
+    <testsuite name="VendorName Test Suite">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
+  <coverage>
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+    <report>
+      <html outputDirectory="build/coverage"/>
+      <text outputFile="build/coverage.txt"/>
+      <clover outputFile="build/logs/clover.xml"/>
+    </report>
+  </coverage>
+  <logging>
+    <junit outputFile="build/report.junit.xml"/>
+  </logging>
+  <php>
+    <env name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
+    <env name="EMULADOR_CLAVEUNICA_ENABLED" value="true"/>
+    <env name="EMULADOR_CLAVEUNICA_CLIENT_ID" value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"/>
+    <env name="EMULADOR_CLAVEUNICA_CLIENT_SECRET" value="zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"/>
+  </php>
+</phpunit>
