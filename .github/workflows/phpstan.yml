@@ -7,7 +7,7 @@ jobs:
   phpstan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: php-actions/composer@v6
         with:
           php_extensions: curl, mbstring, zip, pcntl, intl
