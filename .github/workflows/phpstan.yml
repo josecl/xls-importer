@@ -7,15 +7,19 @@ jobs:
   phpstan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: php-actions/composer@v6
-        with:
-          php_extensions: curl, mbstring, zip, pcntl, intl
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: PHPStan Static Analysis
-        uses: php-actions/phpstan@master
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          configuration: phpstan.neon.dist
-          php_version: 8.1
-          php_extensions: curl, mbstring, zip, pcntl, intl
-          memory_limit: 256M
+          php-version: 8.1
+          extensions: curl, mbstring, zip, pcntl, intl
+          coverage: none
+
+      - name: Install dependencies
+        run: |
+          composer update --prefer-stable --prefer-dist --no-interaction
+
+      - name: Execute tests
+        run: vendor/bin/phpstan
