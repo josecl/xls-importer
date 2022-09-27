@@ -48,7 +48,7 @@ return (new PhpCsFixer\Config())
         'whitespace_after_comma_in_array' => true,
         // array commas
         'trailing_comma_in_multiline' => ['elements' => ['arrays'], 'after_heredoc' => true],
-        'no_trailing_comma_in_singleline_array' => true,
+        'no_trailing_comma_in_singleline' => true,
         'array_syntax' => ['syntax' => 'short'],
         // control structures
         'function_to_constant' => true,
