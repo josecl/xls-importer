@@ -9,9 +9,10 @@ parameters:
     checkMissingIterableValueType: false
 
     ignoreErrors:
-        - message: '#Call to an undefined method Pest\\.*#'
-          paths:
-              - tests/
+        #- message: '#Call to an undefined method Pest\\.*#'
+        #  paths:
+        #      - tests/
+
         - message: '#Undefined variable: \$this#'
           paths:
               - tests/
