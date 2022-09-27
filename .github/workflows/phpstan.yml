@@ -6,6 +6,12 @@ jobs:
 
   phpstan:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dependency-version: [prefer-lowest, prefer-stable]
+
+    name: PHPStan ${{ matrix.dependency-version }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
