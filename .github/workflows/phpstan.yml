@@ -4,29 +4,6 @@ on: ['push', 'pull_request']
 
 jobs:
 
-  cs:
-    runs-on: ubuntu-latest
-
-    name: Code Style
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.1
-          extensions: curl, mbstring, zip, pcntl, intl
-          coverage: none
-
-      - name: Install Dependencies
-        run: composer update --prefer-stable --no-interaction --no-progress
-
-      - name: Run PHP-CS-Fixer
-        run: vendor/bin/php-cs-fixer fix -v --allow-risky=yes --dry-run
-
-
   phpstan:
     runs-on: ubuntu-latest
     strategy:
