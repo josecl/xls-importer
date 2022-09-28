@@ -43,6 +43,7 @@ class XlsImporter
 
         $worksheet = $spreadsheet->getActiveSheet();
         $this->writer->open();
+
         foreach ($worksheet->getRowIterator() as $row) {
             $cellIterator = $row->getCellIterator();
             $cellIterator->setIterateOnlyExistingCells(false);
@@ -56,9 +57,7 @@ class XlsImporter
     public function getSpreadsheet(string $onlySheet = null): Spreadsheet
     {
         $reader = IOFactory::createReader('Xls');
-        // TODO: Check of setReadDataOnly() reduces memory usage
         $reader->setReadDataOnly(true);
-
         if ($onlySheet) {
             $reader->setLoadSheetsOnly($onlySheet);
         }
