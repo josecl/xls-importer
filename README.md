@@ -3,6 +3,14 @@
 [![phpstan](https://github.com/josecl/xls-importer/actions/workflows/phpstan.yml/badge.svg)](https://github.com/josecl/xls-importer/actions/workflows/phpstan.yml)
 [![tests](https://github.com/josecl/xls-importer/actions/workflows/tests.yml/badge.svg)](https://github.com/josecl/xls-importer/actions/workflows/tests.yml)
 
+Converts old XLS (Excel Binary File Format) files to CSV or XLSX (Office Open XML)
+preserving only the values and discarting all the rest of metadata (styles, formulas, etc.)
+with the goal of generate a smaller and portable file.
+
+### Caveats
+
+- Imports only one worksheet
+- Dates will be saved as numbers, ej: `2022/09/26 13:34:56` becomes `44830.565925926` (see roadmap)
 
 
 ## Usage
@@ -63,3 +71,10 @@ composer analyze
 # pest
 composer test
 ```
+
+## Roadmap
+
+- Autodetect dates and datetimes and convert them to ISO 8601 format (eg: `2005-08-15`, `2005-08-15T15:52:01+0000`)
+- Customize field delimiter and field enclosure for CSV
+- Import XLSX files (for cleanup and only keep the values)
+- Use a wrapper as destination
