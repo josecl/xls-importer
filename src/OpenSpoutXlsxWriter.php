@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Josecl\XlsImporter;
 
 use OpenSpout\Common\Entity\Row;
-use OpenSpout\Writer\AbstractWriter;
+use OpenSpout\Writer\XLSX\Writer as XlsxWriter;
 
 class OpenSpoutXlsxWriter implements Writer
 {
-    private AbstractWriter $writer;
+    private XlsxWriter $writer;
 
     public function __construct(
         private string $filename,
     ) {
-        $this->writer = new \OpenSpout\Writer\XLSX\Writer();
+        $this->writer = new XlsxWriter();
     }
 
     public function open(): void
