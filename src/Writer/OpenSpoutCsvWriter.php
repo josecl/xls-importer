@@ -2,26 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Josecl\XlsImporter;
+namespace Josecl\XlsImporter\Writer;
 
 use OpenSpout\Common\Entity\Row;
-use OpenSpout\Writer\XLSX\Writer as XlsxWriter;
+use OpenSpout\Writer\CSV\Writer as CsvWriter;
 
-class OpenSpoutXlsxWriter implements Writer
+class OpenSpoutCsvWriter implements Writer
 {
-    private XlsxWriter $writer;
+    private CsvWriter $writer;
 
     public function __construct(
         private string $filename,
-        private string $sheet = 'Sheet1',
     ) {
-        $this->writer = new XlsxWriter();
+        $this->writer = new CsvWriter();
     }
 
     public function open(): void
     {
         $this->writer->openToFile($this->filename);
-        $this->writer->getCurrentSheet()->setName($this->sheet);
     }
 
     public function close(): void

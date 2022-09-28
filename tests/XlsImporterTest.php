@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 
 use Josecl\XlsImporter\InvalidExtensionException;
-use Josecl\XlsImporter\OpenSpoutCsvWriter;
-use Josecl\XlsImporter\OpenSpoutXlsxWriter;
 use Josecl\XlsImporter\SheetNotFoundException;
+use Josecl\XlsImporter\Writer\OpenSpoutCsvWriter;
+use Josecl\XlsImporter\Writer\OpenSpoutXlsxWriter;
 use Josecl\XlsImporter\XlsImporter;
 
 test('Export providing Writer', closure: function (string $filename, mixed $destination) {

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Josecl\XlsImporter;
 
+use Josecl\XlsImporter\Writer\OpenSpoutCsvWriter;
+use Josecl\XlsImporter\Writer\OpenSpoutXlsxWriter;
+use Josecl\XlsImporter\Writer\Writer;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Worksheet\RowCellIterator;

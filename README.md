@@ -10,7 +10,7 @@
 To convert to a CSV file:
 
 ```php
-$importer = new XlsImporter('/path/to/input.xls');
+$importer = new \Josecl\XlsImporter\XlsImporter('/path/to/input.xls');
 $importer->import('Sheet 1', '/path/to/output.csv');
 ```
 
@@ -21,8 +21,14 @@ To convert to a XLSX file:
 $importer->import('Sheet 1', '/path/to/output.xlsx');
 ```
 
-You can also use a custom implementation of the `Josecl\XlsImporter\Writer` interface:
+To convert to a XLSX file giving the `Writer` instance.
 
+```php
+// ...
+$importer->import('Sheet 1', new \Josecl\XlsImporter\Writer\OpenSpoutXlsxWriter('output.xlsx', 'Sheet Name'));
+```
+
+You can also use a custom implementation of the `Josecl\XlsImporter\Writer\Writer` interface:
 
 ```php
 // ...

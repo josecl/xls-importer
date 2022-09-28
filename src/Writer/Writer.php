@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Josecl\XlsImporter;
+namespace Josecl\XlsImporter\Writer;
 
 interface Writer
 {
