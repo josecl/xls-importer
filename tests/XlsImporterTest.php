@@ -25,6 +25,15 @@ test('Export providing Writer', closure: function (string $filename, mixed $dest
 ]);
 
 
+test('List sheet names', closure: function () {
+    $importer = new XlsImporter(__DIR__ . '/spreadsheet.xls');
+
+    $sheets = $importer->getSheetNames();
+
+    expect($sheets)->toMatchArray(['Sheet 1', 'Empty']);
+});
+
+
 test('InvalidExtensionException', closure: function () {
     $importer = new XlsImporter(__DIR__ . '/spreadsheet.xls');
     $this->expectException(InvalidExtensionException::class);

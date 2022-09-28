@@ -9,6 +9,7 @@ use Josecl\XlsImporter\Writer\OpenSpoutXlsxWriter;
 use Josecl\XlsImporter\Writer\Writer;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\RowCellIterator;
 
 class XlsImporter
@@ -22,15 +23,19 @@ class XlsImporter
         $this->filename = $filename;
     }
 
+    /**
+     * @return array<array-key, string>
+     */
+    public function getSheetNames(): array
+    {
+        return $this->getSpreadsheet()->getSheetNames();
+    }
+
     public function import(string $sheet, string|Writer $destination): void
     {
         $this->writer = $this->getWriter($destination, $sheet);
 
-        $reader = IOFactory::createReader('Xls');
-        // TODO: Check of setReadDataOnly() reduces memory usage
-        $reader->setReadDataOnly(true);
-        $reader->setLoadSheetsOnly($sheet);
-        $spreadsheet = $reader->load($this->filename);
+        $spreadsheet = $this->getSpreadsheet($sheet);
 
         if (! in_array($sheet, $spreadsheet->getSheetNames(), true)) {
             throw new SheetNotFoundException("Sheet not found: {$sheet}");
@@ -46,6 +51,19 @@ class XlsImporter
         }
 
         $this->writer->close();
+    }
+
+    public function getSpreadsheet(string $onlySheet = null): Spreadsheet
+    {
+        $reader = IOFactory::createReader('Xls');
+        // TODO: Check of setReadDataOnly() reduces memory usage
+        $reader->setReadDataOnly(true);
+
+        if ($onlySheet) {
+            $reader->setLoadSheetsOnly($onlySheet);
+        }
+
+        return $reader->load($this->filename);
     }
 
     private function getRowValues(RowCellIterator $cellIterator): array

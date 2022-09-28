@@ -12,6 +12,15 @@ To convert to a CSV file:
 ```php
 $importer = new \Josecl\XlsImporter\XlsImporter('/path/to/input.xls');
 $importer->import('Sheet 1', '/path/to/output.csv');
+
+```
+
+If you don´t know the sheet name, you can use `getSheetNames()` 
+to import the first one:
+
+```php
+// ...
+$importer->import($importer->getSheetNames()[0], '/path/to/output.xlsx');
 ```
 
 To convert to a XLSX file:
