@@ -9,7 +9,7 @@ use Josecl\XlsImporter\Writer\OpenSpoutCsvWriter;
 use Josecl\XlsImporter\Writer\OpenSpoutXlsxWriter;
 use Josecl\XlsImporter\XlsImporter;
 
-test('Export providing Writer', closure: function (string $filename, mixed $destination) {
+test('Export providing Writer', function (string $filename, mixed $destination) {
     $importer = new XlsImporter(__DIR__ . '/spreadsheet.xls');
     $importer->import('Sheet 1', $destination);
 
@@ -25,7 +25,7 @@ test('Export providing Writer', closure: function (string $filename, mixed $dest
 ]);
 
 
-test('List sheet names', closure: function () {
+test('List sheet names', function () {
     $importer = new XlsImporter(__DIR__ . '/spreadsheet.xls');
 
     $sheets = $importer->getSheetNames();
@@ -34,14 +34,14 @@ test('List sheet names', closure: function () {
 });
 
 
-test('InvalidExtensionException', closure: function () {
+test('InvalidExtensionException', function () {
     $importer = new XlsImporter(__DIR__ . '/spreadsheet.xls');
     $this->expectException(InvalidExtensionException::class);
     $importer->import('Sheet 1', __DIR__ . '/out.InValId');
 });
 
 
-test('SheetNotFoundException', closure: function () {
+test('SheetNotFoundException', function () {
     $importer = new XlsImporter(__DIR__ . '/spreadsheet.xls');
     $this->expectException(SheetNotFoundException::class);
     $importer->import('Invalid Sheet name', __DIR__ . '/out.csv');
