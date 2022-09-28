@@ -13,6 +13,7 @@ class OpenSpoutXlsxWriter implements Writer
 
     public function __construct(
         private string $filename,
+        private string $sheet = 'Sheet1',
     ) {
         $this->writer = new XlsxWriter();
     }
@@ -20,6 +21,7 @@ class OpenSpoutXlsxWriter implements Writer
     public function open(): void
     {
         $this->writer->openToFile($this->filename);
+        $this->writer->getCurrentSheet()->setName($this->sheet);
     }
 
     public function close(): void

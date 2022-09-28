@@ -21,7 +21,7 @@ class XlsImporter
 
     public function import(string $sheet, string|Writer $destination): void
     {
-        $this->writer = $this->getWriter($destination);
+        $this->writer = $this->getWriter($destination, $sheet);
 
         $reader = IOFactory::createReader('Xls');
         // TODO: Check of setReadDataOnly() reduces memory usage
@@ -71,7 +71,7 @@ class XlsImporter
         return $cells;
     }
 
-    private function getWriter(Writer|string $destination): Writer
+    private function getWriter(Writer|string $destination, string $sheet): Writer
     {
         if ($destination instanceof Writer) {
             return $destination;
@@ -80,7 +80,7 @@ class XlsImporter
         $extension = strtolower(pathinfo($destination, PATHINFO_EXTENSION));
 
         return match ($extension) {
-            'xlsx' => new OpenSpoutXlsxWriter($destination),
+            'xlsx' => new OpenSpoutXlsxWriter($destination, $sheet),
             'csv' => new OpenSpoutCsvWriter($destination),
             default => throw new InvalidExtensionException("Invalid extension: {$extension}"),
         };
