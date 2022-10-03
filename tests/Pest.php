@@ -14,6 +14,7 @@ declare(strict_types=1);
 */
 
 use Josecl\XlsImporter\Tests\TestCase;
+use PHPUnit\Framework\Assert;
 
 uses(TestCase::class)->in(__DIR__);
 
@@ -29,8 +30,13 @@ uses(TestCase::class)->in(__DIR__);
 |
 */
 
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
+expect()->extend('toMatchFloat', function (float $float, int $decimals) {
+    $value = (int) round($this->value * (10 ** $decimals), $decimals);
+    $expected = (int) round($float * (10 ** $decimals), $decimals);
+
+    Assert::assertSame($expected, $value);
+
+    return $this;
 });
 
 /*
