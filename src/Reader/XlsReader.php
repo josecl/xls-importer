@@ -10,15 +10,12 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\IReadFilter;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\RowCellIterator;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class XlsReader implements Reader
 {
     private string $sheetname;
 
     private Spreadsheet|null $spreadsheet = null;
-
-    private Worksheet|null $worksheet = null;
 
     public function __construct(private string $filename)
     {
@@ -28,12 +25,10 @@ class XlsReader implements Reader
     {
         $this->close();
         $this->sheetname = $sheetname;
-        $this->worksheet = $this->getSpreadsheet()->getActiveSheet();
     }
 
     public function close(): void
     {
-        $this->worksheet = null;
         if ($this->spreadsheet !== null) {
             $this->spreadsheet->__destruct();
             $this->spreadsheet = null;
@@ -61,7 +56,17 @@ class XlsReader implements Reader
         return $reader->load($this->filename)->getSheetNames();
     }
 
-    public function getSpreadsheet(): Spreadsheet
+    public function fetchRow(): Generator
+    {
+        foreach ($this->getSpreadsheet()->getActiveSheet()->getRowIterator() as $row) {
+            $cellIterator = $row->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(false);
+            $cells = $this->getRowValues($cellIterator);
+            yield $cells;
+        }
+    }
+
+    private function getSpreadsheet(): Spreadsheet
     {
         if ($this->spreadsheet) {
             return $this->spreadsheet;
@@ -74,22 +79,6 @@ class XlsReader implements Reader
         $this->spreadsheet = $reader->load($this->filename);
 
         return $this->spreadsheet;
-    }
-
-    public function fetchRow(): Generator
-    {
-        $worksheet = $this->getSpreadsheet()->getActiveSheet();
-        foreach ($worksheet->getRowIterator() as $row) {
-            $cellIterator = $row->getCellIterator();
-            $cellIterator->setIterateOnlyExistingCells(false);
-            $cells = $this->getRowValues($cellIterator);
-            yield $cells;
-        }
-
-//        $this->writer->close();
-//        $spreadsheet->__destruct();
-
-        return [];
     }
 
     private function getRowValues(RowCellIterator $cellIterator): array

@@ -13,6 +13,10 @@ parameters:
           paths:
               - tests/
 
+        - message: '#Access to an undefined property Pest\\.*#'
+          paths:
+              - tests/
+
         - message: '#Undefined variable: \$this#'
           paths:
               - tests/
