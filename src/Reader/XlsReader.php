@@ -7,7 +7,6 @@ namespace Josecl\XlsImporter\Reader;
 use Generator;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Reader\IReadFilter;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\RowCellIterator;
 
@@ -15,16 +14,24 @@ class XlsReader implements Reader
 {
     private string $sheetname;
 
+    private int $chunkSize = 5000;
+
     private Spreadsheet|null $spreadsheet = null;
+
+    private int $from = 1;
+
+    private ?int $to = null;
 
     public function __construct(private string $filename)
     {
     }
 
-    public function open(string $sheetname): void
+    public function open(string $sheetname, int $from = 1, int $to = null): void
     {
         $this->close();
         $this->sheetname = $sheetname;
+        $this->from = $from;
+        $this->to = $to;
     }
 
     public function close(): void
@@ -42,39 +49,62 @@ class XlsReader implements Reader
         }
 
         $reader = IOFactory::createReader('Xls');
-
-        // Filter to avoid read data into memory
-        $emptyReader = new class() implements IReadFilter {
-            public function readCell($columnAddress, $row, $worksheetName = '')
-            {
-                return false;
-            }
-        };
-        $reader->setReadFilter($emptyReader);
         $reader->setReadDataOnly(true);
+        // Empty ReadFilter to avoid read data into memory
+        $reader->setReadFilter(new PhpSpreadsheetChunkReadFilter(0, 0));
 
         return $reader->load($this->filename)->getSheetNames();
     }
 
     public function fetchRow(): Generator
     {
-        foreach ($this->getSpreadsheet()->getActiveSheet()->getRowIterator() as $row) {
-            $cellIterator = $row->getCellIterator();
-            $cellIterator->setIterateOnlyExistingCells(false);
-            $cells = $this->getRowValues($cellIterator);
-            yield $cells;
+        $rowIndex = $this->from;
+        $rowIndexInChunk = 1;
+
+        $worksheet = $this->getSpreadsheet($rowIndex)->getActiveSheet();
+
+        $maxRowIndex = $worksheet->getHighestDataRow();
+
+        while ($rowIndex <= $maxRowIndex || $rowIndexInChunk > $this->chunkSize) {
+            if ($rowIndexInChunk > $this->chunkSize) {
+                $rowIndexInChunk = 1;
+                $this->close();
+                $worksheet = $this->getSpreadsheet($rowIndex)->getActiveSheet();
+                $maxRowIndex = $worksheet->getHighestDataRow();
+
+                if ($maxRowIndex < $rowIndex) {
+                    return null;
+                }
+            }
+
+
+            $cells = $this->getRowValues(new RowCellIterator($worksheet, $rowIndex, 'A', null));
+
+            yield $rowIndex => $cells;
+
+            $rowIndex++;
+            $rowIndexInChunk++;
         }
     }
 
-    private function getSpreadsheet(): Spreadsheet
+    private function getSpreadsheet(int $from = 1): Spreadsheet
     {
         if ($this->spreadsheet) {
             return $this->spreadsheet;
         }
 
+
+        $to = $from + $this->chunkSize - 1;
+        if ($this->to) {
+            $to = min($to, $this->to);
+        }
+
         $reader = IOFactory::createReader('Xls');
         $reader->setReadDataOnly(true);
         $reader->setLoadSheetsOnly($this->sheetname);
+
+        // Filter to avoid read data into memory
+        $reader->setReadFilter(new PhpSpreadsheetChunkReadFilter($from, $to));
 
         $this->spreadsheet = $reader->load($this->filename);
 
