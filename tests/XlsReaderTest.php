@@ -72,7 +72,7 @@ test('Big file range', function () {
 
 test('Big file with constrained memory usage', function () {
     $filename = 'compress.bzip2://' . __DIR__ . '/big.xls.bz2';
-    $tempFile = sys_get_temp_dir() . '/' . random_int(10_000_000, 99_999_999) . '-big.xls';
+    $tempFile = __DIR__ . '/' . random_int(10_000_000, 99_999_999) . '-big.xls';
     copy($filename, $tempFile);
 
     $reader = new XlsReader($tempFile);
