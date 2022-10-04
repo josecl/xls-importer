@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Josecl\XlsImporter\Reader;
 
 use Generator;
+use Josecl\XlsImporter\SheetNotFoundException;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\RowCellIterator;
@@ -32,6 +34,12 @@ class XlsReader implements Reader
         $this->sheetname = $sheetname;
         $this->from = $from;
         $this->to = $to;
+
+        try {
+            $this->getSpreadsheet($from)->getActiveSheet();
+        } catch (Exception $exception) {
+            throw new SheetNotFoundException("Sheet not found: {$this->sheetname}", 0, $exception);
+        }
     }
 
     public function close(): void

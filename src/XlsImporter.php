@@ -33,10 +33,6 @@ class XlsImporter
     {
         $this->writer = $this->makeWriter($destination, $sheetname);
 
-        if (! in_array($sheetname, $this->reader->getSheetNames(), true)) {
-            throw new SheetNotFoundException("Sheet not found: {$sheetname}");
-        }
-
         $this->reader->open($sheetname);
         $this->writer->open();
 
