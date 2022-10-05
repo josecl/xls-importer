@@ -1,6 +1,15 @@
 name: Static Analysis
 
-on: ['push', 'pull_request']
+on:
+  push:
+    paths:
+      - '**.php'
+      - 'phpstan.neon.dist'
+  pull_request:
+    paths:
+      - '**.php'
+      - 'phpstan.neon.dist'
+
 
 jobs:
 
@@ -8,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dependency-version: [prefer-lowest, prefer-stable]
+        dependency-version: [lowest, stable]
 
     name: PHPStan ${{ matrix.dependency-version }}
 
@@ -24,7 +33,7 @@ jobs:
           coverage: none
 
       - name: Install Dependencies
-        run: composer update --prefer-stable --no-interaction --no-progress
+        run: composer update --prefer-${{ matrix.dependency-version }} --no-interaction --no-progress
 
       - name: Run PHPStan
-        run: vendor/bin/phpstan analyse --no-progress
+        run: vendor/bin/phpstan analyse --no-progress --error-format=github
